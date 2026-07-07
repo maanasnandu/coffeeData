@@ -7,10 +7,10 @@ As I prepare to head to France for my Master's in Data Analytics & AI at IÉSEG 
 IDE Environment: Pycharm
 
 🚀 The Pipeline Lifecycle
-1. Extract (The Loading Dock) ✅
+1. Extract (The Loading Dock): ✅
 A custom Python ingestion script utilizing the boto3 library securely authenticates and uploads local, raw CSV data (Kaggle Coffee Reviews) directly into an euro-coffee-raw Amazon S3 bucket.
 
-2. Transform (The Roaster) 🚧 In Progress
+2. Transform (The Roaster): 🚧 In Progress
 An AWS Glue job spins up a distributed PySpark environment to:
 
 Filter and drop corrupted rows/missing values.
@@ -23,5 +23,5 @@ Utilize Spark SQL to aggregate average cupping scores by country and roaster.
 The finalized, cleaned DataFrames are pushed into an Amazon RDS (PostgreSQL) relational database, structured and optimized to power downstream Business Intelligence dashboards.
 
         
-👨‍💻 About me
+👨‍💻 About me:
 I'm Maanas Muddam, a data professional with over 3 years of experience building robust front-end applications and scalable data pipelines. When I'm not writing PySpark transformations or optimizing SQL queries, you can usually find me hunting down a great pour-over, waking up early for Formula 1 races, watching movies or hiking out shooting wildlife and astrophotography. Cheers!
