@@ -27,7 +27,7 @@ transformed_df = spark.sql(""
                            "WITH RankedRoasters AS (SELECT roaster, loc_country, origin_1 as bean_origin, CAST(rating AS FLOAT) AS rating, DENSE_RANK() OVER (PARTITION BY loc_country ORDER BY CAST(rating AS FLOAT) DESC) as country_rank FROM coffee_data WHERE loc_country IN ('France', 'Germany', 'Italy', 'Spain', 'United Kingdom')) SELECT * FROM RankedRoasters WHERE country_rank <= 5" 
                            "")
 
-output_path  = 's3://euro-coffee-clean/top_eu_roasters/'
+output_path  = 's3://euro-coffee-cleaned/top_eu_roasters/'
 transformed_df.write.mode('overwrite').parquet(output_path)
 
 print('Transformation complete, clean data has been written to the target bucket. Happy Roasting!')
