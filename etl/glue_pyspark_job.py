@@ -23,9 +23,28 @@ clean_df.printSchema()
 clean_df.createOrReplaceTempView("coffee_data")
 
 # Transformation
-transformed_df = spark.sql(""                   
-                           "WITH RankedRoasters AS (SELECT roaster, loc_country, origin_1 as bean_origin, CAST(rating AS FLOAT) AS rating, DENSE_RANK() OVER (PARTITION BY loc_country ORDER BY CAST(rating AS FLOAT) DESC) as country_rank FROM coffee_data WHERE loc_country IN ('France', 'Germany', 'Italy', 'Spain', 'United Kingdom')) SELECT * FROM RankedRoasters WHERE country_rank <= 5" 
-                           "")
+transformed_df = spark.sql("""SELECT
+        name AS coffee_name,
+        roaster,
+        loc_country AS roaster_country,
+        roast AS roast_level,
+        origin_1 AS bean_origin,
+        100g_USD AS price_per_100g,
+        rating,
+        -- Fun Metric 1: Value for Money (Price per rating point)
+        ROUND((100g_USD / rating), 2) AS price_per_point,
+        -- Fun Metric 2: Categorizing the coffee tier
+        CASE 
+            WHEN rating >= 95 THEN 'Exceptional'
+            WHEN rating >= 90 THEN 'Outstanding'
+            ELSE 'Excellent' 
+        END AS quality_tier,
+        desc_1 AS primary_flavor,
+        desc_2 AS secondary_flavor,
+        -- Fun Metric 3: Keeping the country ranking
+        DENSE_RANK() OVER (PARTITION BY loc_country ORDER BY rating DESC) as country_rank
+    FROM coffee_data
+    WHERE 100g_USD IS NOT NULL""")
 
 output_path  = 's3://euro-coffee-cleaned/top_eu_roasters/'
 transformed_df.write.mode('overwrite').parquet(output_path)
