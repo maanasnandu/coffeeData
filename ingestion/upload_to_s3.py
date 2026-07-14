@@ -25,9 +25,9 @@ def upload_to_s3(local_file, bucket, s3_file):
 
 if __name__ == "__main__":
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    LOCAL_FILE_PATH = os.path.join(BASE_DIR, 'data', 'coffee_analysis.csv')
+    LOCAL_FILE_PATH = os.path.join(BASE_DIR, 'data', 'global_top_100_coffee_shops.csv')
 
     BUCKET_NAME = 'euro-coffee-raw'
-    S3_FILE_NAME = 'coffee_analysis.csv'
+    S3_FILE_NAME = 'global_top_100_coffee_shops.csv'
 
     upload_to_s3(LOCAL_FILE_PATH, BUCKET_NAME, S3_FILE_NAME)
